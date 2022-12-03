@@ -17,6 +17,12 @@ void Vec3::normalize() {
 	z/=len;
 }
 
+void Vec3::raw(int i, double v) {
+	if(i == 0) { x = v; }
+	if(i == 1) { y = v; }
+	if(i == 2) { z = v; }
+}
+
 void Vec3::operator+=(Vec3 v) {
 	x += v.x;
 	y += v.y;
@@ -68,3 +74,5 @@ double dot(Vec3 a, Vec3 b) {
 Vec3 cross(Vec3 a, Vec3 b) {
 	// TODO
 }
+
+

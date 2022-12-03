@@ -40,6 +40,9 @@ void Window::close() {
 void Window::putPixel(int x, int y, Color color) {
 	x = (width/2)+x;
 	y = (height/2)-y;
+	if(y == height) {
+		y -= 1;
+	}
 	if(x < 0 || x >= surface->w || y < 0 || y >= surface->h) {
 		std::cout << "putPixel: Coordinates is out of bound" << std::endl;
 		exit(1);

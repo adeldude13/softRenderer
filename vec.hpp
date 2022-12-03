@@ -10,6 +10,7 @@ class Vec3 {
 		double x=0, y=0, z=0, w=1;
 		double length();
 		void normalize();
+		void raw(int, double);
 		void operator+=(Vec3);
 		void operator-=(Vec3);
 		void operator*=(double);
