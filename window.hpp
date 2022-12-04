@@ -12,8 +12,8 @@ class Window {
 		void putPixel(int,int,Color);
 		void render();
 		bool windowShouldClose();
-	private:
 		int width, height;
+	private:
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 		SDL_Surface *surface;

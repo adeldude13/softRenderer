@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <iostream>
 
+bool resizingEvent = false;
+
+static int resizingEventWatcher(void* data, SDL_Event* event) {
+  if (event->type == SDL_WINDOWEVENT && event->window.event == SDL_WINDOWEVENT_RESIZED) {
+		resizingEvent = true;
+  }
+  return 0;
+}
+
 int computeColor(double i) {
 	if(i>=1){
 		return 255;	
@@ -19,7 +28,7 @@ Window::Window(const char *p_title, int p_width, int p_height) {
 		this->close();
 		exit(1);
 	}
-	window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
+	window = SDL_CreateWindow(p_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,  SDL_WINDOW_RESIZABLE);
 	if(window == NULL) {
 		exit(1);
 	}
@@ -28,6 +37,7 @@ Window::Window(const char *p_title, int p_width, int p_height) {
 		exit(1);
 	}
 	surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+	SDL_AddEventWatch(resizingEventWatcher, window);
 }
 
 void Window::close() {
@@ -55,6 +65,12 @@ void Window::putPixel(int x, int y, Color color) {
 }
 
 void Window::render() {
+	if(resizingEvent) {
+		resizingEvent = false;
+		SDL_GetWindowSize(window, &width, &height);
+		SDL_FreeSurface(surface);
+		surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+	}
 	SDL_Event event;
 	while(SDL_PollEvent(&event)) {
 		if(event.type == SDL_QUIT) {
